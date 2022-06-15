@@ -31,12 +31,16 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => [
     'auth:sanctum',
     'verified',
-    'accessrole',
+    // 'accessrole',
 ]], function () {
 
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/mydashboard', function () {
+        return view('mydashboard');
+    })->name('mydashboard');
 
     Route::get('/pages', function () {
         return view('admin.pages');
@@ -53,6 +57,30 @@ Route::group(['middleware' => [
     Route::get('/user-permissions', function () {
         return view('admin.user-permissions');
     })->name('user-permissions');
+
+});
+
+Route::prefix('ots')->middleware(['auth:sanctum', 'verified',])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('ots.dashboard');
+    })->name('ots-dashboard');
+
+    Route::get('/users', function () {
+        return view('ots.users');
+    })->name('ots-users');
+
+    Route::get('/user-permissions', function () {
+        return view('ots.user-permissions');
+    })->name('ots-user-permissions');
+
+    Route::get('/nonghyups', function () {
+        return view('ots.nonghyups');
+    })->name('ots-nonghyups');
+
+    Route::get('/nonghyup-users', function () {
+        return view('ots.nonghyup-users');
+    })->name('ots-nonghyup-users');
 
 });
 
