@@ -20,12 +20,12 @@ class Users extends Component
     public $role;
     public $region;
     public $nonghyup;
-    public $nonghyupList;
+    public $nonghyup_list;
 
 
     public function updatedRegion($region)
     {
-        $this->nonghyupList = User::userNonghyupList()[$region];
+        $this->nonghyupList = Nonghyup::where('region', '=', $region)->get();
     }
 
     public function rules()
@@ -48,7 +48,7 @@ class Users extends Component
 
     public function read()
     {
-        return User::paginate(5);
+        return User::paginate(20);
     }
 
     public function update()
@@ -94,6 +94,8 @@ class Users extends Component
         $this->email = $data->email;
         $this->role = $data->role;
         $this->region = $data->region;
+        $this->nonghyup = $data->nonghyup !== null ? $data->nonghyup->id : '';
+        $this->nonghyupList = Nonghyup::where('region', '=', $this->region)->get();
     }
 
     public function modelData()

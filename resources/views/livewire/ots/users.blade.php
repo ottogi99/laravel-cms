@@ -18,6 +18,7 @@
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">이메일</th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">역할</th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">지역</th>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">담당농협</th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></th>
                             </tr>
                         </thead>
@@ -27,10 +28,15 @@
                                     <tr>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->name }}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->email }}</td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->role }}</td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ App\Models\User::userRoleList()[$item->role] }}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                             @isset($item->region)
                                                 {{ App\Models\User::userRegionList()[$item->region] }}
+                                            @endisset
+                                        </td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                            @isset($item->nonghyup)
+                                                {{ $item->nonghyup->name }}
                                             @endisset
                                         </td>
                                         <td class="px-6 py-5 flex justify-end">
@@ -92,17 +98,17 @@
 
         <x-slot name="content">
             <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-label for="name" value="{{ __('이름') }}" />
                 <x-jet-input wire:model="name" type="text" id="name" class="block mt-1 w-full" />
                 @error('name') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
+                <x-jet-label for="email" value="{{ __('이메일') }}" />
                 <x-jet-input wire:model="email" type="text" id="email" class="block mt-1 w-full" />
                 @error('email') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-jet-label for="role" value="{{ __('Role') }}" />
+                <x-jet-label for="role" value="{{ __('권한') }}" />
                 <select wire:model="role" class="block appearance-none w-full bg-gray-100-border border-gray-200 text-gray-700 py-3 px-4 pr-8 round leading-tight focus:outline-none focus:bg-white focus:border-gray-500b">
                     <option value="">-- 권한을 선택하세요 --</option>
                     @foreach (App\Models\User::userRoleList() as $key => $value)
@@ -112,7 +118,7 @@
                 @error('role') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-jet-label for="region" value="{{ __('Region') }}" />
+                <x-jet-label for="region" value="{{ __('지역') }}" />
                 <select wire:model="region" class="block appearance-none w-full bg-gray-100-border border-gray-200 text-gray-700 py-3 px-4 pr-8 round leading-tight focus:outline-none focus:bg-white focus:border-gray-500b">
                     <option value="">-- 담당지역을 선택하세요 --</option>
                     @foreach (App\Models\User::userRegionList() as $key => $value)
@@ -122,16 +128,17 @@
                 @error('region') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
-                <x-jet-label for="nonghyup" value="{{ __('Nonghyup') }}" />
+                <x-jet-label for="nonghyup" value="{{ __('담당농협') }}" />
                 <select wire:model="nonghyup" class="block appearance-none w-full bg-gray-100-border border-gray-200 text-gray-700 py-3 px-4 pr-8 round leading-tight focus:outline-none focus:bg-white focus:border-gray-500b">
                     <option value="">-- 담당농협을 선택하세요 --</option>
                     @isset($nonghyupList)
-                        @foreach ($nonghyupList as $nonghyup)
-                            <option value="{{ $nonghyup }}">{{ $nonghyup }}</option>
+                        @foreach ($nonghyupList as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     @endisset
                 </select>
                 @error('nonghyup') <span class="error">{{ $message }}</span> @enderror
+                {{ $nonghyup }}
             </div>
         </x-slot>
 

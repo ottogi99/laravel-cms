@@ -26,11 +26,19 @@
                             @if ($data->count())
                                 @foreach ( $data as $item )
                                     <tr>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->region }}</td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->nonghyup->name }}</td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                            @isset($item->region)
+                                                {{ app\Models\User::userRegionList()[$item->region] }}
+                                            @endisset
+                                        </td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                            @isset($item->nonghyup)
+                                                {{ $item->nonghyup->name }}
+                                            @endisset
+                                        </td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->name }}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->email }}</td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->role }}</td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ app\Models\User::userRoleList()[$item->role] }}</td>
                                         <td class="px-6 py-2 flex justify-end">
                                             <x-jet-button wire:click="updateShowModal({{ $item->id }})">
                                                 {{ __('Update')}}

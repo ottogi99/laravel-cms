@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostList;
 use App\Http\Livewire\Frontpage;
 use Illuminate\Support\Facades\Route;
 
@@ -81,6 +82,13 @@ Route::prefix('ots')->middleware(['auth:sanctum', 'verified',])->group(function 
     Route::get('/nonghyup-users', function () {
         return view('ots.nonghyup-users');
     })->name('ots-nonghyup-users');
+
+    // Route::get('/post', 'Post')->naPost('post');
+    Route::get('/post-list', PostList::class)->name('post-list');
+
+    Route::get('/users-table', function () {
+        return view('ots.users-tables');
+    })->name('ots-users-table');
 
 });
 

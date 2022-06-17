@@ -17,7 +17,7 @@ class Nonghyup extends Model
         'representative',
     ];
 
-    // 단위 농협과 사용자 간의 연관관계 정의 (1:N)
+// 단위 농협과 사용자 간의 연관관계 정의 (1:N)
     public function users()
     {
         return $this->hasMany(User::class);
